@@ -11,6 +11,9 @@ class _AddKhataState extends State<AddKhata> {
   var _enteredName = '';
   var _enteredPhoneNo = '';
   var _enteredBalance = 0;
+  final myControllerName = TextEditingController();
+  final myControllerPhoneNo = TextEditingController();
+  final myControllerBalance = TextEditingController();
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
     final user = await FirebaseAuth.instance.currentUser();
@@ -58,6 +61,7 @@ class _AddKhataState extends State<AddKhata> {
               ),
               Expanded(
                 child: TextField(
+                    controller: myControllerName,
                     decoration: InputDecoration(labelText: 'Karigar name...'),
                     // onChanged:
                     onChanged: (value) {
@@ -68,6 +72,7 @@ class _AddKhataState extends State<AddKhata> {
               ),
               Expanded(
                 child: TextField(
+                    controller: myControllerPhoneNo,
                     decoration: InputDecoration(labelText: 'Phone no....'),
                     // onChanged:
                     onChanged: (value) {
@@ -78,6 +83,7 @@ class _AddKhataState extends State<AddKhata> {
               ),
               Expanded(
                 child: TextField(
+                    controller: myControllerBalance,
                     decoration: InputDecoration(
                       labelText: 'Current Balance....',
                     ),
