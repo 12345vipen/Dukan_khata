@@ -1,8 +1,8 @@
 import 'package:dukan_app/screens/detail_screen.dart';
 import 'package:dukan_app/screens/khata_screen.dart';
+import 'package:dukan_app/widgets/khata/add_detail.dart';
 import 'package:dukan_app/widgets/khata/add_khata.dart';
 import 'package:flutter/material.dart';
-import 'package:dukan_app/widgets/khata/khata_decoration.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -15,8 +15,9 @@ class RouteGenerator {
       case '/AddKhata':
         return MaterialPageRoute(builder: (_) => AddKhata());
       case '/DetailScreen':
-        return MaterialPageRoute(
-            builder: (_) => DetailScreen());
+        return MaterialPageRoute(builder: (_) => DetailScreen(args));
+      case '/AddDetail':
+        return MaterialPageRoute(builder: (_) => AddDetail(args));
       default:
         return _errorRoute();
     }

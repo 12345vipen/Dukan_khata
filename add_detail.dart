@@ -1,45 +1,47 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class AddKhata extends StatefulWidget {
+class AddDetail extends StatefulWidget {
+  final String phoneNo;
+  AddDetail(this.phoneNo);
   @override
-  _AddKhataState createState() => _AddKhataState();
+  _AddDetailState createState() => _AddDetailState();
 }
 
-class _AddKhataState extends State<AddKhata> {
-  var _enteredName = '';
-  var _enteredPhoneNo = '';
-  var _enteredBalance = 0;
-  final myControllerName = TextEditingController();
-  final myControllerPhoneNo = TextEditingController();
-  final myControllerBalance = TextEditingController();
+class _AddDetailState extends State<AddDetail> {
+  var _enteredQuantity = 0;
+  var _enteredRate = 0;
+  var _enteredVariety = '';
+  DocumentReference docsId;
+  final myControllerQuantity = TextEditingController();
+  final myControllerRate = TextEditingController();
+  final myControllerVariety = TextEditingController();
+
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
     final user = await FirebaseAuth.instance.currentUser();
-    Firestore.instance.collection('khata').add({
-      'name': _enteredName,
-      'phoneNo': _enteredPhoneNo,
-      'balance': _enteredBalance,
+    Firestore.instance.collection(widget.phoneNo).add({
+      'quantity': _enteredQuantity,
+      'rate': _enteredRate,
+      'variety': _enteredVariety,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
-    });
-    Navigator.of(context).pushReplacementNamed('/');
+      'paise': 0,
+    }
+    );
+    Navigator.of(context).pushReplacementNamed('/DetailScreen',
+        arguments: widget.phoneNo);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Khata'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/');
-              }),
-        ],
+        title: Text('Add Detail'),
       ),
       body: Card(
         margin: EdgeInsets.all(20),
@@ -60,38 +62,48 @@ class _AddKhataState extends State<AddKhata> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 14,
+              ),
+             
               Expanded(
                 child: TextField(
-                    controller: myControllerName,
-                    decoration: InputDecoration(labelText: 'Karigar name...'),
-                    // onChanged:
-                    onChanged: (value) {
-                      setState(() {
-                        _enteredName = value;
-                      });
-                    }),
-              ),
-              Expanded(
-                child: TextField(keyboardType: TextInputType.phone,
-                    controller: myControllerPhoneNo,
-                    decoration: InputDecoration(labelText: 'Phone no....'),
-                    // onChanged:
-                    onChanged: (value) {
-                      setState(() {
-                        _enteredPhoneNo = value;
-                      });
-                    }),
-              ),
-              Expanded(
-                child: TextField(keyboardType: TextInputType.phone,
-                    controller: myControllerBalance,
+                    keyboardType: TextInputType.phone,
+                    controller: myControllerVariety,
                     decoration: InputDecoration(
-                      labelText: 'Current Balance....',
+                        labelText: 'For shirt:s and for lower:l  ....'),
+                    // onChanged:
+                    onChanged: (value) {
+                      setState(() {
+                        _enteredVariety = value;
+                        print(_enteredVariety);
+                      });
+                    }),
+              ),
+              Expanded(
+                child: TextField(
+                    keyboardType: TextInputType.phone,
+                    controller: myControllerQuantity,
+                    decoration: InputDecoration(
+                        labelText: 'kini shirt leke ja reha...'),
+                    // onChanged:
+                    onChanged: (value) {
+                      setState(() {
+                        _enteredQuantity = int.parse(value);
+                      });
+                    }),
+              ),
+              Expanded(
+                child: TextField(
+                    keyboardType: TextInputType.phone,
+                    controller: myControllerRate,
+                    decoration: InputDecoration(
+                      labelText: 'Rate....',
                     ),
                     // onChanged:
                     onChanged: (value) {
                       setState(() {
-                        _enteredBalance = int.parse(value);
+                        _enteredRate = int.parse(value);
                       });
                     }),
               ),

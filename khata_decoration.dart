@@ -1,5 +1,3 @@
-import 'package:dukan_app/screens/detail_screen.dart';
-import 'package:dukan_app/widgets/communication/phone.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,6 +7,7 @@ class KhataDecoration extends StatelessWidget {
   int balance;
   int len;
   String userId;
+
   KhataDecoration(this.name, this.phoneNo, this.balance, this.len, this.userId);
   List listImagesnotFound = [
     "https://cdn0.iconfinder.com/data/icons/user-pictures/100/matureman1-512.png",
@@ -26,7 +25,7 @@ class KhataDecoration extends StatelessWidget {
       highlightColor: Colors.deepPurpleAccent,
       // splashFactory: ,
       onTap: () => Navigator.of(context)
-          .pushNamed('/DetailScreen'),
+          .pushNamed('/DetailScreen', arguments: phoneNo),
 
       child: Card(
         child: ListTile(
@@ -37,7 +36,10 @@ class KhataDecoration extends StatelessWidget {
               .toString()),
           title: Text(name),
           subtitle: Text('Balance: Rs $balance'),
-          trailing: IconButton(icon: Icon(Icons.phone), onPressed:()=>launch("tel://$phoneNo"),),
+          trailing: IconButton(
+            icon: Icon(Icons.phone),
+            onPressed: () => launch("tel:$phoneNo"),
+          ),
           isThreeLine: true,
         ),
       ),

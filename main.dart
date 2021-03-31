@@ -1,6 +1,5 @@
 import 'package:dukan_app/route/route_generator.dart';
 import 'package:dukan_app/screens/auth_screen.dart';
-import 'package:dukan_app/screens/chat_screen.dart';
 import 'package:dukan_app/screens/khata_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
