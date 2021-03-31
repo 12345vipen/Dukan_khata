@@ -31,6 +31,7 @@ class _AddDetailState extends State<AddDetail> {
       'createdAt': Timestamp.now(),
       'userId': user.uid,
       'paise': 0,
+      'returnedQuantity':''
     }
     );
     Navigator.of(context).pushReplacementNamed('/DetailScreen',

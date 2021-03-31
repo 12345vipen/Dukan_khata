@@ -10,6 +10,8 @@ class DetailDecoration extends StatefulWidget {
   String userId;
   int paise;
   String phoneNo;
+  dynamic chatDocs;
+  String returnedQuantity;
   DetailDecoration(
     this.quantity,
     this.rate,
@@ -18,6 +20,8 @@ class DetailDecoration extends StatefulWidget {
     this.userId,
     this.paise,
     this.phoneNo,
+    this.chatDocs,
+    this.returnedQuantity,
   );
 
   @override
@@ -25,7 +29,6 @@ class DetailDecoration extends StatefulWidget {
 }
 
 class _DetailDecorationState extends State<DetailDecoration> {
-  bool chkIfPressed = false;
   DateTime currentTime = new DateTime.now();
   var enteredPcs = '';
   final myControllerPcs = TextEditingController();
@@ -43,8 +46,18 @@ class _DetailDecorationState extends State<DetailDecoration> {
           ListTile(
             leading: Image.network(
                 listImagesnotFound[widget.variety == 's' ? 1 : 0].toString()),
-            title: Text(widget.quantity.toString()),
-            subtitle: Text("paise: ${widget.paise}"),
+            title: Text(
+              "Leke: ${widget.quantity.toString()}, Ayi: ${widget.returnedQuantity.toString()}",
+              style: TextStyle(
+                  color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              "Rate: Rs${widget.rate} Paise: Rs${widget.paise}",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
             trailing: Text(DateFormat('yMMMd').format(currentTime).toString() ??
                 'variety'),
             isThreeLine: true,
@@ -63,12 +76,13 @@ class _DetailDecorationState extends State<DetailDecoration> {
                 } else {
                   widget.paise = widget.rate * int.parse(enteredPcs);
                 }
-                // chkIfPressed = true;
-                // Navigator.of(context).pushReplacementNamed('/DetailScreen',
-                //     arguments: {
-                //       widget.phoneNo,
-
-                //     });
+                Firestore.instance
+                    .collection(widget.phoneNo)
+                    .document(widget.chatDocs[widget.index].documentID)
+                    .updateData({
+                  'paise': widget.paise,
+                  'returnedQuantity': enteredPcs,
+                });
               });
             },
           ),

@@ -52,6 +52,8 @@ class AllDetail extends StatelessWidget {
                         chatDocs[index]['userId'],
                         chatDocs[index]['paise'],
                         phoneNo,
+                        chatDocs,
+                        chatDocs[index]['returnedQuantity'],
                       ));
             });
       },

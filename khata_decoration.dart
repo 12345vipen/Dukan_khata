@@ -24,8 +24,8 @@ class KhataDecoration extends StatelessWidget {
       splashColor: Colors.red[900],
       highlightColor: Colors.deepPurpleAccent,
       // splashFactory: ,
-      onTap: () => Navigator.of(context)
-          .pushNamed('/DetailScreen', arguments: phoneNo),
+      onTap: () =>
+          Navigator.of(context).pushNamed('/DetailScreen', arguments: phoneNo),
 
       child: Card(
         child: ListTile(
@@ -34,8 +34,18 @@ class KhataDecoration extends StatelessWidget {
                       ? len
                       : len % listImagesnotFound.length]
               .toString()),
-          title: Text(name),
-          subtitle: Text('Balance: Rs $balance'),
+          title: Text(
+            name,
+            style: TextStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            'Balance: Rs $balance',
+            style: TextStyle(
+                color: balance >= 0 ? Colors.green : Colors.red,
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
+          ),
           trailing: IconButton(
             icon: Icon(Icons.phone),
             onPressed: () => launch("tel:$phoneNo"),
