@@ -4,28 +4,19 @@ import 'package:flutter/material.dart';
 
 class DetailScreen extends StatelessWidget {
   final String phoneNo;
- 
-  DetailScreen(
-    this.phoneNo,
-  );
+
+  DetailScreen(this.phoneNo);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: Text('Welcome'),
+        title: Text("Welcome"),
       ),
       body: Container(
         child: Column(
           children: [
             Expanded(child: AllDetail(phoneNo)),
-            // Expanded(
-            //   child: Container(
-            //     child: Center(
-            //       child: Text("$phoneNo"),
-            //     ),
-            //   ),
-            // ),
             Align(
               alignment: Alignment.bottomCenter,
               child: RaisedButton(

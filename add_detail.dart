@@ -13,9 +13,9 @@ class AddDetail extends StatefulWidget {
 }
 
 class _AddDetailState extends State<AddDetail> {
-  var _enteredQuantity = 0;
-  var _enteredRate = 0;
-  var _enteredVariety = '';
+  int _enteredQuantity = 0;
+  int _enteredRate = 0;
+  String _enteredVariety = '';
   DocumentReference docsId;
   final myControllerQuantity = TextEditingController();
   final myControllerRate = TextEditingController();
@@ -31,11 +31,10 @@ class _AddDetailState extends State<AddDetail> {
       'createdAt': Timestamp.now(),
       'userId': user.uid,
       'paise': 0,
-      'returnedQuantity':''
-    }
-    );
-    Navigator.of(context).pushReplacementNamed('/DetailScreen',
-        arguments: widget.phoneNo);
+      'returnedQuantity': '',
+    });
+    Navigator.of(context)
+        .pushReplacementNamed('/DetailScreen', arguments: widget.phoneNo);
   }
 
   @override
@@ -66,10 +65,8 @@ class _AddDetailState extends State<AddDetail> {
               SizedBox(
                 height: 14,
               ),
-             
               Expanded(
                 child: TextField(
-                    keyboardType: TextInputType.phone,
                     controller: myControllerVariety,
                     decoration: InputDecoration(
                         labelText: 'For shirt:s and for lower:l  ....'),

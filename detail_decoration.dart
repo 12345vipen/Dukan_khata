@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +14,7 @@ class DetailDecoration extends StatefulWidget {
   String phoneNo;
   dynamic chatDocs;
   String returnedQuantity;
+  int totalBalance;
   DetailDecoration(
     this.quantity,
     this.rate,
@@ -22,6 +25,7 @@ class DetailDecoration extends StatefulWidget {
     this.phoneNo,
     this.chatDocs,
     this.returnedQuantity,
+    this.totalBalance,
   );
 
   @override
@@ -40,53 +44,67 @@ class _DetailDecorationState extends State<DetailDecoration> {
   @override
   Widget build(BuildContext context) {
     // print(widget.index);
-    return Card(
-      child: Column(
-        children: [
-          ListTile(
-            leading: Image.network(
-                listImagesnotFound[widget.variety == 's' ? 1 : 0].toString()),
-            title: Text(
-              "Leke: ${widget.quantity.toString()}, Ayi: ${widget.returnedQuantity.toString()}",
-              style: TextStyle(
-                  color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+    return InkWell(
+      splashColor: Colors.red[900],
+      highlightColor: Colors.deepPurpleAccent,
+      onLongPress: () {
+        Firestore.instance
+            .collection(widget.phoneNo)
+            .document(widget.chatDocs[widget.index].documentID)
+            .delete()
+            .catchError((e) {
+          print(e);
+        });
+      },
+      child: Card(
+        child: Column(
+          children: [
+            ListTile(
+              leading: Image.network(
+                  listImagesnotFound[widget.variety == 's' ? 1 : 0].toString()),
+              title: Text(
+                "Leke: ${widget.quantity}, Ayi: ${widget.returnedQuantity}",
+              ),
+              subtitle: Text(
+                "Rate: Rs${widget.rate} Paise: Rs${widget.paise}",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+              trailing: Text(
+                  DateFormat('yMMMd').format(currentTime).toString() ??
+                      'variety'),
+              isThreeLine: true,
             ),
-            subtitle: Text(
-              "Rate: Rs${widget.rate} Paise: Rs${widget.paise}",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-            trailing: Text(DateFormat('yMMMd').format(currentTime).toString() ??
-                'variety'),
-            isThreeLine: true,
-          ),
-          TextField(
-            controller: myControllerPcs,
-            keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-              labelText: 'Kini aa gayi..',
-            ),
-            onChanged: (value) {
-              setState(() {
-                enteredPcs = value;
-                if (enteredPcs.trim().length == 0) {
-                  widget.paise = 0;
-                } else {
-                  widget.paise = widget.rate * int.parse(enteredPcs);
-                }
-                Firestore.instance
-                    .collection(widget.phoneNo)
-                    .document(widget.chatDocs[widget.index].documentID)
-                    .updateData({
-                  'paise': widget.paise,
-                  'returnedQuantity': enteredPcs,
+            TextField(
+              controller: myControllerPcs,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                labelText: 'Kini aa gayi..',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  enteredPcs = value;
+                  if (enteredPcs.trim().length == 0) {
+                    widget.paise = 0;
+                  } else {
+                    widget.paise =
+                        widget.rate * int.parse(enteredPcs);
+                  }
+                  Firestore.instance
+                      .collection(widget.phoneNo)
+                      .document(widget.chatDocs[widget.index].documentID)
+                      .updateData({
+                    'paise': widget.paise,
+                    'returnedQuantity': enteredPcs,
+                  });
+                  widget.totalBalance += widget.paise;
                 });
-              });
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

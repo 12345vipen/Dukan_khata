@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dukan_app/widgets/khata/detail_decoration.dart';
 import 'package:dukan_app/widgets/khata/khata_decoration.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class AllDetail extends StatelessWidget {
   String phoneNo;
+  int totalBalance = 0;
   // int indexUpdate;
   // bool chkIfPressed;
   // String paised;
@@ -36,15 +39,9 @@ class AllDetail extends StatelessWidget {
               final chatDocs = chatSnapshot.data.documents;
 
               return ListView.builder(
+                  // reverse: true,
                   itemCount: chatDocs.length,
-                  itemBuilder: (ctx, index) =>
-                      // if (chkIfPressed == true) {
-                      //   Firestore.instance
-                      //       .collection(phoneNo)
-                      //       .document(chatDocs[indexUpdate].documentID)
-                      //       .updateData({'paise': paised});
-                      // }
-                      DetailDecoration(
+                  itemBuilder: (ctx, index) => DetailDecoration(
                         chatDocs[index]['quantity'],
                         chatDocs[index]['rate'],
                         chatDocs[index]['variety'],
@@ -54,6 +51,7 @@ class AllDetail extends StatelessWidget {
                         phoneNo,
                         chatDocs,
                         chatDocs[index]['returnedQuantity'],
+                        totalBalance,
                       ));
             });
       },
